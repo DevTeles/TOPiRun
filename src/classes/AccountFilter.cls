@@ -1,6 +1,7 @@
 /**
- * 
+ * @author: rafael.vital - topi
  */
+
 public with sharing class AccountFilter {
 
   public List<Account> filterByChangeDocumentNumber ( List<Account> newAccounts
@@ -10,13 +11,12 @@ public with sharing class AccountFilter {
 
       for ( Account account : newAccounts ) {
 
-        if ( String.isEmpty(account.DocumentNumber__c)) {
-
-          filteredAccounts.add(account);
+        if ( String.isEmpty(account.DocumentNumber__c)) {          
           continue;
         }
 
         if ( oldAccounts == null || oldAccounts.isEmpty() ) {
+            filteredAccounts.add(account);
             continue;
         }
 
@@ -29,4 +29,20 @@ public with sharing class AccountFilter {
 
       return filteredAccounts;
   }
+
+  public List<Account> filterByCategoryAnnualRevenue ( List<Account> accounts, String category, Decimal annualRevenue ) {
+      
+    List<Account> filterAccounts = new List<Account>();
+
+    for ( Account account : accounts ) {
+
+      if (account.Category__c == category && account.AnnualRevenue >= annualRevenue) {
+        filterAccounts.add(account);
+      }
+
+    }
+
+    return filterAccounts;
+  }
+  
 }
