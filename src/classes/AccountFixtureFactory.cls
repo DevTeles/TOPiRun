@@ -14,4 +14,12 @@ public class AccountFixtureFactory {
     return account;
   }
 
+  public static Account newAccountPremium ( String name, String category, Decimal annualRevenue ) {
+    return new Account ( Name = name, Category__c = category, AnnualRevenue = annualRevenue);
+  }
+
+  public static Account createAccountPremium ( String name, String category, Decimal annualRevenue) {
+    return createAccount ( newAccountPremium(name, category, annualRevenue) );
+  }
+
 }

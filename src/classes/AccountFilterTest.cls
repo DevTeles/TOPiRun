@@ -40,4 +40,20 @@ public class AccountFilterTest {
 
   }
 
+  @isTest
+  static void filterByCategoryAnnualRevenueTest() {
+    
+    AccountFilter filter = new AccountFilter();
+    
+    List<Account> newAccounts = new List<Account>();
+
+    newAccounts.add( AccountFixtureFactory.newAccountPremium('Teste 7', 'Premium', 1000000) );
+    newAccounts.add( AccountFixtureFactory.newAccountPremium('Teste 9', 'Standard', 600000) );
+    insert newAccounts;
+    
+    List<Account> filterAccounts = filter.filterByCategoryAnnualRevenue(newAccounts, 'Premium', 1000000);            
+
+    System.assertNotEquals(newAccounts.size(), filterAccounts.size());
+  }
+
 }
