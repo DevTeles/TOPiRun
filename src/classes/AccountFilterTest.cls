@@ -43,6 +43,12 @@ public class AccountFilterTest {
   @isTest
   static void filterByCategoryAnnualRevenueTest() {
     
+    Map<String, SObject> records = AccountFixtureFactory.createIntegratedScenario();
+
+    List<Account> accounts = new List<Account> {
+      (Account) records.get('account')
+    };
+
     AccountFilter filter = new AccountFilter();
     
     List<Account> newAccounts = new List<Account>();
