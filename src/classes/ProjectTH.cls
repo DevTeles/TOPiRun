@@ -19,6 +19,8 @@ public with sharing class ProjectTH extends TriggerHandler {
   
   ProjectFilter filter; 
 
+  SendTopiProjectAsync sendTopiProjectAsync;
+
   public ProjectTH () {
     this ( (List<Project__c>) Trigger.new, (Map<Id,Project__c>) Trigger.oldMap );
   }
@@ -27,30 +29,28 @@ public with sharing class ProjectTH extends TriggerHandler {
     this.newProjects = newProjects;
     this.oldProjects = oldProjects;
 
-    filter = new AccountFilter();
-    validator = new AccountValidator();  
+    filter = new ProjectFilter();      
+    sendTopiProjectAsync = new SendTopiProjectAsync();
   }
 
   override
-  public void afterUpdate() {    
+  public void afterUpdate() {        
     sendProjectToLegacySystem();
   }
 
   virtual
   public void sendProjectToLegacySystem () {
-    List<Account> filterAccounts = filter.filterByCategoryAnnualRevenue(newProjects, 'Premium', 1000000);
-    
-    EventRepository repository = new EventRepository();
+    List<Project__c> filterProjects = filter.filterByEnterpriseProjectStarted(newProjects, oldProjects);
 
-    repository.create(this.enricherEvent.createEventPremium(filterAccounts));
-  }
+    if (filterProjects.isEmpty()) return;
 
-  virtual  
-  public void validateDocumentNumber () {
+    // To convert project to list of id;
+    sendTopiProjectAsync.sendProject(filter.convertSObjectList(filterProjects, 'Id'));
 
-    List<Account> filterdAccounts = this.filter.filterByChangeDocumentNumber(newProjects
-                                                                              , oldProjects);
-    this.validator.validateDocumentNumber(filterdAccounts);
-  }
+    //PutProjectOutountService service = new PutProjectOutountService();
+    //service.updateProject(filterProjects);
+    //ProjectRepository repository = new ProjectRepository();
+    //repository.create(projectEnricher.changeProjectStatusSuccess(filterProjects));
+  } 
 
 }

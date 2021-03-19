@@ -1,7 +1,7 @@
 /**
  * @author: rafael.vital  - topi
  */
-@RestResource (urlMapping = '/api/modulo/project')
+@RestResource (urlMapping = '/api/project')
 global with sharing class ProjectController {
 
   @HttpPost
@@ -13,5 +13,5 @@ global with sharing class ProjectController {
 
     return repository.create( transformer.toProject(project) );
   }
-
 }
+

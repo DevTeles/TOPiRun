@@ -1,48 +1,47 @@
 /**
  * @author: rafael.vital - topi
  */
+public with sharing class ProjectFilter extends Filter {
 
-public with sharing class ProjectFilter {
-
-  public List<Account> filterByChangeDocumentNumber ( List<Account> newAccounts
-                                                      , Map<Id,Account> oldAccounts ) {
+  public List<Project__c> filterByEnterpriseProjectStarted ( List<Project__c> newProjects
+                                                      , Map<Id,Project__c> oldProjects ) {
      
-      List<Account> filteredAccounts = new List<Account> ();                                                        
+      List<Project__c> filteredProjects = new List<Project__c> ();                                                        
 
-      for ( Account account : newAccounts ) {
+      if (newProjects.isEmpty()) return filteredProjects;
 
-        if ( String.isEmpty(account.DocumentNumber__c)) {          
+      for ( Project__c project : newProjects ) {
+
+        if (project.Type__c != 'Enterprise' 
+           || project.Status__c != 'Iniciado')
           continue;
-        }
 
-        if ( oldAccounts == null || oldAccounts.isEmpty() ) {
-            filteredAccounts.add(account);
+        if ( oldProjects == null || oldProjects.isEmpty() ) {
+          filteredProjects.add(project);
             continue;
         }
 
-        if ( account.DocumentNumber__c == oldAccounts.get(account.Id).DocumentNumber__c ) {
-          continue;
-        }
-
-        filteredAccounts.add( account );
+        filteredProjects.add( project );
       }
 
-      return filteredAccounts;
+      return filteredProjects;
   }
 
-  public List<Account> filterByCategoryAnnualRevenue ( List<Account> accounts, String category, Decimal annualRevenue ) {
+  public List<Project__c> filterByTypeStatus ( List<Project__c> projects, String type, String status ) {
       
-    List<Account> filterAccounts = new List<Account>();
+    List<Project__c> filterProjects = new List<Project__c>();
+ 
+    if (projects.isEmpty()) return filterProjects;
 
-    for ( Account account : accounts ) {
+    for ( Project__c project : projects ) {
 
-      if (account.Category__c == category && account.AnnualRevenue >= annualRevenue) {
-        filterAccounts.add(account);
+      if (project.Type__c == type && project.Status__c == status) {
+        filterProjects.add(project);
       }
 
     }
 
-    return filterAccounts;
+    return filterProjects;
   }
   
 }

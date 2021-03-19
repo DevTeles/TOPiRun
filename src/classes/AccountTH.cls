@@ -67,6 +67,7 @@ public virtual with sharing class AccountTH extends TriggerHandler {
     List<Account> filterdAccounts = this.filter.filterByChangeDocumentNumber(newAccounts
                                                                               , oldAccounts);
     this.validator.validateDocumentNumber(filterdAccounts);
+    
   }
 
 }
