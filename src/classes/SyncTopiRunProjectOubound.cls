@@ -18,7 +18,7 @@ public with sharing class SyncTopiRunProjectOubound {
 
     Http http = new Http();
 
-    HttpResponse response; // = http.send( buildRequest(project) );
+    HttpResponse response = http.send( buildRequest(project) );
 
     if (response.getStatusCode() != 200) {
       TopiRunErrorResponse errorResponse = (TopiRunErrorResponse) JSON.deserialize( response.getBody(), TopiRunErrorResponse.class);
@@ -33,7 +33,7 @@ public with sharing class SyncTopiRunProjectOubound {
     return project;
   }
 
-  private HttpRequest buildRequest (Projetc__c project) {
+  private HttpRequest buildRequest (Project__c project) {
 
     HttpRequest request = new HttpRequest ();
     request.setEndpoint(END_POINT_URL);

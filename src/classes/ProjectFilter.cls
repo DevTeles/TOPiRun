@@ -1,7 +1,7 @@
 /**
  * @author: rafael.vital - topi
  */
-public with sharing class ProjectFilter extends Filter {
+public class ProjectFilter extends Filter {
 
   public List<Project__c> filterByEnterpriseProjectStarted ( List<Project__c> newProjects
                                                       , Map<Id,Project__c> oldProjects ) {
@@ -26,7 +26,7 @@ public with sharing class ProjectFilter extends Filter {
 
       return filteredProjects;
   }
-
+  
   public List<Project__c> filterByTypeStatus ( List<Project__c> projects, String type, String status ) {
       
     List<Project__c> filterProjects = new List<Project__c>();

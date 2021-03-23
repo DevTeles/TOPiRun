@@ -14,7 +14,6 @@
 public with sharing class ProjectTH extends TriggerHandler {
 
   List<Project__c> newProjects;
-
   Map<Id,Project__c> oldProjects;
   
   ProjectFilter filter; 
@@ -35,22 +34,17 @@ public with sharing class ProjectTH extends TriggerHandler {
 
   override
   public void afterUpdate() {        
-    sendProjectToLegacySystem();
+    sendProjectsToLegacySystem();
   }
 
   virtual
-  public void sendProjectToLegacySystem () {
+  public void sendProjectsToLegacySystem () {
     List<Project__c> filterProjects = filter.filterByEnterpriseProjectStarted(newProjects, oldProjects);
 
     if (filterProjects.isEmpty()) return;
 
     // To convert project to list of id;
     sendTopiProjectAsync.sendProject(filter.convertSObjectList(filterProjects, 'Id'));
-
-    //PutProjectOutountService service = new PutProjectOutountService();
-    //service.updateProject(filterProjects);
-    //ProjectRepository repository = new ProjectRepository();
-    //repository.create(projectEnricher.changeProjectStatusSuccess(filterProjects));
   } 
 
 }
